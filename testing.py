@@ -5,25 +5,9 @@ from fft import fft
 from fri import prove_low_degree, verify_low_degree_proof
 from utils import get_power_cycle, get_pseudorandom_indices, is_a_power_of_2
 
-"""
-All calculations are done modulo ; Vitalik used this prime field modulus
-because it is the largest prime below 2^256 whose multiplicative group contains
-an order 2^32 subgroup (that is, there's a number g such that successive powers
-of g modulo this prime loop around back to 1 after exactly 32^32 cycles), and
-which is of the form 6k+5. The first property is necessary to make sure that
-the efficient versions of the FFT and FRI algorithms can work, and the second
-ensures that the MIMC actually can be computed "backwards". We dont need the
-backwards computation but keep that modulus anyway.
-"""
-
 modulus = 2**256 - 2**32 * 351 + 1
 f = PrimeField(modulus)
 
-# This is the higher power root of unity to calculate the intermediate
-# evaluations of the polynomials i.e. not exactly on the computation trace
-# Where evaluations are zero for some polys and lead to problems with
-# evaluation
-# Root of unity such that x^(precision)=1
 precision = (7 + 1) * 8
 G2 = f.exp(7, (modulus-1)//precision)
 
