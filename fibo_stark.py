@@ -36,30 +36,6 @@ def fib_to(n):
     return fibs
 
 
-def degreedtatest(x, y, exclude_multiples_of):
-    # returns degree of a dataset point has degree zero
-
-    for i in range(1, len(x)):
-        if i == len(x) - 1:
-            return 999
-
-        x_points = [xi for xi in x[:i+1]]
-        y_points = [yi for yi in y[:i+1]]
-
-        if exclude_multiples_of:
-            pts = [x for x in range(len(x_points)) if x % exclude_multiples_of]
-        else:
-            pts = range(len(x_points))
-
-        x_points = [x_points[i] for i in pts]
-        y_points = [y_points[i] for i in pts]
-        poly = f.lagrange_interp([xi for xi in x_points],
-                                 [yi for yi in y_points])
-        eval = f.eval_poly_at(poly, x[i+1])
-        if eval == y[i+1]:
-            return len(x_points) - 1
-
-
 def generate_proof(fibo_to_n):
     start_time = time.time()
     assert fibo_to_n + 1 <= 2**32
